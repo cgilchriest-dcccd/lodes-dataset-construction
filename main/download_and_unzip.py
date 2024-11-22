@@ -156,6 +156,24 @@ def download_state_lodes_file(save_loc: str,
     print(f"end time: {end}")
     return fold
 
+def filter_for_single_year_files(links_dict : dict,year: str,state_cd: str) -> dict:
+    '''
+    Filters down the links dictionary for a single year and single state. Useful for updating existing. Returns dictionary.
+
+    :param str links_dict: Links dictionary (output of get_all_possible_files).
+    :param str year: String of year to query
+    :param str state_cd: Two letter state code.
+    '''
+    
+    fouts = {state_cd:{'od':[],'rac':[],'wac':[],'cw':[]} }
+    for x in links_dict[state_cd]:
+        hf = []
+        for y in links_dict[state_cd][x]:
+            if year in y:
+                hf.append(y)
+        fouts[state_cd][x] = hf
+    return fouts
+
 def unzip_state_lodes_file(state_fold : str = None) -> str:
     '''
     unzip a state's lodes data, using the parent folder location with the data
